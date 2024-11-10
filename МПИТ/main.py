@@ -11,6 +11,7 @@ from kivy.lang import Builder
 from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.graphics import Rectangle
+from kivy.uix.dropdown import DropDown
 import sqlite3
 Window.size = (428, 926)
 #129307!
@@ -19,18 +20,35 @@ Window.size = (428, 926)
 #Алгоритм приложил бы фоткой, да не могу, из-за этого стоп-кода и сбора презентаций чисто не успеваю.
 #Встретились как-то русский, немец и американец...
 class MyApp(App):
-    public_voids = []
-    '''def recomendation():   #Анализатор
+    '''public_voids = []
+    def recomendation():   #Анализатор
         global public_voids
 
+        self.addit_height_lbl.opacity = 0
+        self.addit_height.opacity = 0
+        self.addit_body_lbl.opacity = 0
+        self.addit_body_type.opacity = 0
+        self.addit_patience_lbl.opacity = 0
+        self.addit_patience.opacity = 0
+        self.final_reg_btn.opacity = 0
+        self.addit_height.size_hint = (.0, .0)
+        self.addit_body_type.size_hint = (.0, .0)
+        self.addit_patience.size_hint = (.0, .0)
+        self.final_reg_btn.size_hint = (.0,.0)'''
+
         #рост/телосложение(худой, мускулистый, полноватый)/терпение(5)
+        a = int(self.addit_height.text)
+        else: print('error')
+        b = self.addit_body_type.text
+        c = int(self.addit_patience.text)
+        else: print('error')
         dbn = 'app_users_data.db'
         conn = sqlite3.connect(dbn)
         cursor = conn.cursor()
-        sqlite_users = f"""INSERT INTO user_public_data(name,  email,  password) VALUES ('{a}',  '{b}',  '{c}')"""
+        sqlite_users = f"""INSERT INTO user_public_data(height,  body_type,  patience) VALUES ({a},  '{b}',  {c})"""
         cursor.execute(sqlite_users)
-         conn.commit()
-         conn.close()'''
+        conn.commit()
+        conn.close()
 
 	def set_bg(self, *args):
 		self.root_window.bind(size=self.do_resize)
@@ -132,6 +150,7 @@ class MyApp(App):
 							self.card_megalits.opacity =1
 							self.card_shoria.opacity =1
 							self.small_full_map.opacity =1
+
 				if key == False:
 					self.reg_pass.text  ='Неправильное имя или пароль'
 
@@ -180,6 +199,7 @@ class MyApp(App):
 			self.reg_email.size_hint = (.0, .0)
 			self.reg_pass_confirm.size_hint = (.0, .0)
 			self.next_reg_btn.size_hint = (.0, .0)
+
 
 			self.welcome.opacity =1
 			self.card_salan.opacity =1
@@ -666,7 +686,24 @@ class MyApp(App):
 		buttons_layout.add_widget(self.card_shoria)
 		buttons_layout.add_widget(self.small_full_map)
 
-		#register_form--------------------------------------------------------------------------------------------------------------------------------
+        #register_form_public------------------------------------------------------------------------------------------------------------------------
+        self.addit_height_lbl = Label(text='Укажите возраст:(только цифры)', bold=True, pos_hint ={'center_x':.5}, size_hint =(.7, .4), pos =(214.0, 425.0), opacity=0)
+        self.addit_height = TextInput(size_hint =(.7, .03), multiline = False, pos =(214.0, 570.0), pos_hint ={'center_x':.5}, text='Имя', opacity=0)
+        self.addit_body_lbl = Label(text='Укажите телосложение(худой, мускулистый, полноватый)', bold=True, pos_hint ={'center_x':.5}, size_hint =(.7, .4), pos =(214.0, 425.0), opacity=0)
+        self.addit_body_type = TextInput(size_hint =(.7, .03), pos =(214.0, 510.0), multiline = False, pos_hint ={'center_x':.5}, text='Эл. почта', opacity=0
+        self.addit_patience_lbl = Label(text='Укажите уровень терпения (от 1 до 5):', bold=True, pos_hint ={'center_x':.5}, size_hint =(.7, .4), pos =(214.0, 425.0), opacity=0)
+        self.addit_patience = TextInput(size_hint =(.7, .03), pos =(214.0, 450.0), multiline = False, pos_hint ={'center_x':.5}, text='Пароль', opacity=0)
+        self.final_reg_btn = Button(pos_hint ={'center_x':.5}, background_normal='UI\\next.png', size_hint =(.55, .1), pos =(214.0, 250.0), opacity=0)
+
+        #front----------------------------------------------------------------------------------------------------------------------------------------
+        buttons_layout.add_widget(self.reg_lbl)
+        buttons_layout.add_widget(self.reg_name)
+        buttons_layout.add_widget(self.reg_email)
+        buttons_layout.add_widget(self.reg_pass)
+        buttons_layout.add_widget(self.reg_pass_confirm)
+        buttons_layout.add_widget(self.final_reg_btn)
+
+		#register_form_private-------------------------------------------------------------------------------------------------------------------------
 		self.reg_lbl = Label(text='Регистрация', bold=True, pos_hint ={'center_x':.5}, size_hint =(.7, .4), pos =(214.0, 425.0), opacity=0)
 		self.reg_name = TextInput(size_hint =(.7, .03), multiline = False, pos =(214.0, 570.0), pos_hint ={'center_x':.5}, text='Имя', opacity=0)
 		self.reg_email = TextInput(size_hint =(.7, .03), pos =(214.0, 510.0), multiline = False, pos_hint ={'center_x':.5}, text='Эл. почта', opacity=0)
